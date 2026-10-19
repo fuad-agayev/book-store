@@ -17,6 +17,7 @@ VALUES
 ON CONFLICT (slug) DO NOTHING;
 
 
+
 -- 2) GENRES
 
 INSERT INTO public.genres (name, slug)
@@ -62,6 +63,39 @@ WHERE NOT EXISTS (
   WHERE lower(a.name) = lower(v.name)
 );
 
+
+
+-- 2. LANGUAGES
+INSERT INTO public.languages (name, slug)
+VALUES
+  ('English', 'english'),
+  ('Azerbaijani', 'azerbaijani'),
+  ('Turkish', 'turkish'),
+  ('Russian', 'russian'),
+  ('Albanian', 'albanian'),
+  ('Arabic', 'arabic'),
+  ('Chinese', 'chinese'),
+  ('Danish', 'danish'),
+  ('Dutch', 'dutch'),
+  ('Finnish', 'finnish'),
+  ('French', 'french'),
+  ('German', 'german'),
+  ('Greek', 'greek'),
+  ('Hebrew', 'hebrew'),
+  ('Hindi', 'hindi'),
+  ('Hungarian', 'hungarian'),
+  ('Italian', 'italian'),
+  ('Japanese', 'japanese'),
+  ('Korean', 'korean'),
+  ('Norwegian', 'norwegian'),
+  ('Persian', 'persian'),
+  ('Portuguese', 'portuguese'),
+  ('Brazilian Portuguese', 'brazilian-portuguese'),
+  ('Romanian', 'romanian'),
+  ('Spanish', 'spanish'),
+  ('Swedish', 'swedish'),
+  ('Thai', 'thai')
+ON CONFLICT (slug) DO NOTHING;
 
 -- 4) BOOKS
 

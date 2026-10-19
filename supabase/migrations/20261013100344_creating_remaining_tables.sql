@@ -26,7 +26,7 @@ CREATE TYPE public.payments_status AS ENUM (
 
 -- 2. PROFILES
 CREATE TABLE public.profiles (
-     id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
     full_name TEXT,
     avatar_url TEXT,
     role public.profile_role NOT NULL DEFAULT 'user',
