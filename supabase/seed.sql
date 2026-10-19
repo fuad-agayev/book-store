@@ -99,138 +99,153 @@ ON CONFLICT (slug) DO NOTHING;
 
 -- 4) BOOKS
 
-INSERT INTO public.books
-  (
-    title,
-    author_id,
-    category_id,
-    isbn,
-    description,
-    price,
-    stock,
-    cover_url,
-    cover_path,
-    pdf_path,
-    status,
-    language,
-    publisher_year,
-    featured,
-    sale_price,
-    book_type,
-    classification
-  )
+
+INSERT INTO public.books (
+  title,
+  isbn,
+  description,
+  price,
+  stock,
+  category_id,
+  cover_url,
+  cover_path,
+  pdf_path,
+  book_type,
+  author_id,
+  status,
+  publisher_year,
+  featured,
+  sale_price,
+  classification,
+  language_id
+)
 SELECT
   v.title,
-  a.id,
-  c.id,
   v.isbn,
   v.description,
   v.price,
   v.stock,
-  NULL,
-  NULL,
-  NULL,
-  'active',
-  'English',
+  c.id,
+  v.cover_url,
+  v.cover_path,
+  v.pdf_path,
+  v.book_type::public.book_type,
+  a.id,
+  v.status,
   v.publisher_year,
   v.featured,
   v.sale_price,
-  v.book_type::public.book_type,
-  v.classification
-FROM (VALUES
-  (
-    'Clean Code',
-    '9780132350884',
-    'Robert C. Martin',
-    'Programming',
-    'A practical introduction to writing readable and maintainable code.',
-    34.99::numeric,
-    12,
-    2008,
-    true,
-    29.99::numeric,
-    'digital',
-    'classic'
-  ),
-  (
-    'Refactoring',
-    '9780134757599',
-    'Martin Fowler',
-    'Software Design',
-    'Techniques for improving the design of existing code.',
-    39.99::numeric,
-    8,
-    2018,
-    true,
-    NULL::numeric,
-    'digital',
-    'contemporary'
-  ),
-  (
-    'HTML and CSS: Design and Build Websites',
-    '9781118008188',
-    'Jon Duckett',
-    'Web Development',
-    'A visual introduction to HTML and CSS for building websites.',
-    24.99::numeric,
-    15,
-    2011,
-    true,
-    19.99::numeric,
-    'digital',
-    'contemporary'
-  ),
-  (
-    'JavaScript and JQuery',
-    '9781118531648',
-    'Jon Duckett',
-    'Web Development',
-    'An introduction to JavaScript and jQuery for interactive websites.',
-    27.99::numeric,
-    10,
-    2014,
-    false,
-    NULL::numeric,
-    'digital',
-    'contemporary'
-  ),
-  (
-    'Database Design Basics',
-    '9780000000005',
-    'Brett McLaughlin',
-    'Database',
-    'A demo title for practicing relational database concepts.',
-    18.99::numeric,
-    20,
-    2023,
-    false,
-    NULL::numeric,
-    'digital',
-    'contemporary'
-  )
+  v.classification,
+  l.id
+FROM (
+  VALUES
+    (
+      'Clean Code',
+      '9780132350884',
+      'A book about writing clean and maintainable code.',
+      34.99::numeric,
+      12,
+      'Programming',
+      'https://example.com/covers/clean-code.jpg',
+      'clean-code.jpg',
+      NULL::text,
+      'physical',
+      'Robert C. Martin',
+      'active',
+      2008,
+      true,
+      29.99::numeric,
+      'classic',
+      'english'
+    ),
+    (
+      'The Hobbit',
+      '9780547928227',
+      'A fantasy adventure about Bilbo Baggins.',
+      19.99::numeric,
+      8,
+      'Fiction',
+      'https://example.com/covers/the-hobbit.jpg',
+      'the-hobbit.jpg',
+      NULL::text,
+      'physical',
+      'J. R. R. Tolkien',
+      'active',
+      1937,
+      true,
+      NULL::numeric,
+      'classic',
+      'english'
+    ),
+    (
+      'Le Petit Prince',
+      '9780156012195',
+      'A French-language literary tale.',
+      14.99::numeric,
+      6,
+      'Fiction',
+      'https://example.com/covers/le-petit-prince.jpg',
+      'le-petit-prince.jpg',
+      NULL::text,
+      'physical',
+      'Antoine de Saint-Exupery',
+      'active',
+      1943,
+      false,
+      NULL::numeric,
+      'classic',
+      'french'
+    )
 ) AS v(
   title,
   isbn,
-  author_name,
-  category_name,
   description,
   price,
   stock,
+  category_name,
+  cover_url,
+  cover_path,
+  pdf_path,
+  book_type,
+  author_name,
+  status,
   publisher_year,
   featured,
   sale_price,
-  book_type,
-  classification
+  classification,
+  language_slug
 )
 JOIN public.authors a
-  ON lower(a.name) = lower(v.author_name)
+  ON a.name = v.author_name
 JOIN public.categories c
   ON c.name = v.category_name
-WHERE NOT EXISTS (
-  SELECT 1
-  FROM public.books b
-  WHERE b.isbn = v.isbn
-);
+JOIN public.languages l
+  ON l.slug = v.language_slug;
+
+--JOIN public.authors a
+ -- ON lower(a.name) = lower(v.author_name)
+--JOIN public.categories c
+ -- ON c.name = v.category_name
+--WHERE NOT EXISTS (
+  --SELECT 1
+  --FROM public.books b
+  --WHERE b.isbn = v.isbn
+--);
+ VEYA BOYLE
+
+ --JOIN public.authors a
+  --ON lower(a.name) = lower(v.author_name)
+--JOIN public.categories c
+ -- ON c.name = v.category_name
+--JOIN public.languages l
+ -- ON l.slug = v.language_slug
+--WHERE NOT EXISTS (
+  --SELECT 1
+  --FROM public.books b
+  --WHERE b.isbn = v.isbn
+--)
+--ON CONFLICT (isbn) DO NOTHING;
+--    ------------BOYLECE YONTMEL SORGULAR ILE D YAPILAR BILINIRDI ----------------
 
 
 -- 5) BOOK_GENRES
