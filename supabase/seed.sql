@@ -221,7 +221,8 @@ JOIN public.categories c
   ON c.name = v.category_name
 JOIN public.languages l
   ON l.slug = v.language_slug;
-
+  
+--       ------------VEYA BOYLE-----------
 --JOIN public.authors a
  -- ON lower(a.name) = lower(v.author_name)
 --JOIN public.categories c
@@ -231,7 +232,7 @@ JOIN public.languages l
   --FROM public.books b
   --WHERE b.isbn = v.isbn
 --);
- VEYA BOYLE
+ --       ------------VEYA BOYLE-----------
 
  --JOIN public.authors a
   --ON lower(a.name) = lower(v.author_name)
@@ -245,7 +246,30 @@ JOIN public.languages l
   --WHERE b.isbn = v.isbn
 --)
 --ON CONFLICT (isbn) DO NOTHING;
+
+
 --    ------------BOYLECE YONTMEL SORGULAR ILE D YAPILAR BILINIRDI ----------------
+
+
+--      ---------------SIMPLE WAY TO USE INSERT INTO----------
+
+--INSERT INTO public.books (
+ -- title,
+  --author_id,
+  ---category_id,
+  --language_id,
+  --....
+--)
+--VALUES (
+ -- 'Clean Code',
+  --10,
+  --2,
+  --3,
+  --....
+--);
+--      ---------------SIMPLE WAY TO USE INSERT INTO----------
+
+
 
 
 -- 5) BOOK_GENRES
